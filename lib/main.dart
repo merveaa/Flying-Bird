@@ -11,8 +11,13 @@ Future<void> main() async {
     game: game,
     initialActiveOverlays: const ['mainMenu'],
     overlayBuilderMap: {
-      'gameOver': (context, _) => GameOverScreen(game: game),
-      'mainMenu': (context, _) => MainMenuScreen(game: game)
+      'gameOver': (context, _) => GameOverScreen(
+            onRestart: () {
+              // Restart logic goes here
+              game.restartGame(); // Call restart method from FlappyBirdGame
+            },
+          ),
+      'mainMenu': (context, _) => MainMenuScreen(game: game),
     },
   ));
 }
