@@ -16,6 +16,9 @@ Future<void> main() async {
               // Restart logic goes here
               game.restartGame(); // Call restart method from FlappyBirdGame
             },
+            onMenu: () {
+              game.goToMainMenu(); // Call goToMainMenu method from FlappyBirdGame
+            },
           ),
       'mainMenu': (context, _) => MainMenuScreen(game: game),
     },

@@ -49,4 +49,17 @@ class FlappyBirdGame extends FlameGame with TapDetector, HasCollisionDetection {
 
     resumeEngine();
   }
+
+  void goToMainMenu() {
+    bluebird.reset();
+    // clear the existing pipes
+    children.whereType<PipeGroup>().forEach((pipeGroup) => remove(pipeGroup));
+    // start adding new pipes from the beginning
+    interval = Timer(Config.pipesInterval, repeat: true);
+    interval.onTick = () => add(PipeGroup());
+
+    overlays.remove('gameOver');
+    overlays.add('mainMenu');
+    pauseEngine();
+  }
 }
