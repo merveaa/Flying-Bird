@@ -3,11 +3,11 @@ import 'package:flyingbird/game/flyingbird_game.dart';
 import 'package:flyingbird/game/assets.dart';
 
 class GameOverScreen extends StatelessWidget {
-  final Function onRestart; // Function parameter to handle restart
-  final Function onMenu; // Function parameter to handle going to the main menu
-  const GameOverScreen(
-      {Key? key, required this.onRestart, required this.onMenu})
-      : super(key: key);
+  final FlappyBirdGame game;
+  const GameOverScreen({
+    Key? key,
+    required this.game,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Material(
@@ -25,7 +25,7 @@ class GameOverScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  onRestart();
+                  game.restartGame();
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
                 child: const Text(
@@ -35,7 +35,7 @@ class GameOverScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  onMenu(); // Call the onMenu function
+                  game.goToMainMenu();
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
                 child: const Text(
