@@ -1,15 +1,17 @@
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/timer.dart';
-import 'package:flutter/material.dart';
 import 'package:flyingbird/components/background.dart';
 import 'package:flyingbird/components/bird.dart';
 import 'package:flyingbird/components/ground.dart';
 import 'package:flyingbird/components/pipe_group.dart';
+import 'package:flyingbird/components/score.dart';
 import 'package:flyingbird/game/config.dart';
 
 class FlappyBirdGame extends FlameGame with TapDetector, HasCollisionDetection {
   late Bird bluebird;
+  late ScoreComponent scoreWidget;
+  int score = 0;
   Timer interval = Timer(Config.pipesInterval, repeat: true);
   bool isCollided = false;
 
@@ -20,6 +22,9 @@ class FlappyBirdGame extends FlameGame with TapDetector, HasCollisionDetection {
       Ground(),
       bluebird = Bird(),
     ]);
+
+    scoreWidget = ScoreComponent(score: score);
+    add(scoreWidget);
 
     interval.onTick = () => add(PipeGroup());
   }
@@ -37,6 +42,9 @@ class FlappyBirdGame extends FlameGame with TapDetector, HasCollisionDetection {
   }
 
   void restartGame() {
+    score = 0;
+    scoreWidget.updateScore(score); // to update the score
+    isCollided = false;
     bluebird.reset();
     overlays.remove('gameOver');
 
@@ -51,6 +59,9 @@ class FlappyBirdGame extends FlameGame with TapDetector, HasCollisionDetection {
   }
 
   void goToMainMenu() {
+    score = 0;
+    scoreWidget.updateScore(score); // for update the score display
+    isCollided = false;
     bluebird.reset();
     // clear the existing pipes
     children.whereType<PipeGroup>().forEach((pipeGroup) => remove(pipeGroup));
@@ -61,5 +72,11 @@ class FlappyBirdGame extends FlameGame with TapDetector, HasCollisionDetection {
     overlays.remove('gameOver');
     overlays.add('mainMenu');
     pauseEngine();
+  }
+
+  void incrementScore() {
+    score++;
+    scoreWidget.updateScore(score);
+    print("Skor arttı, yeni skor: $score"); //kontrol için
   }
 }

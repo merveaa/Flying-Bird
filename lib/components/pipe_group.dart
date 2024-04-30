@@ -1,14 +1,16 @@
 import 'dart:math';
 
 import 'package:flame/components.dart';
-import 'package:flyingbird/components/pipe.dart';
 import 'package:flyingbird/game/config.dart';
 import 'package:flyingbird/game/flyingbird_game.dart';
+import 'package:flyingbird/components/pipe.dart';
+import 'package:flyingbird/components/score.dart';
 import 'package:flyingbird/game/pipe_position.dart';
 
 class PipeGroup extends PositionComponent with HasGameRef<FlappyBirdGame> {
   PipeGroup();
   final random = Random();
+
   @override
   onLoad() async {
     position.x = gameRef.size.x;
@@ -25,12 +27,20 @@ class PipeGroup extends PositionComponent with HasGameRef<FlappyBirdGame> {
     ]);
   }
 
+  bool passed = false;
+
   @override
   void update(double dt) {
     super.update(dt);
     position.x -= Config.gameSpeed * dt;
+
     if (position.x < -10) {
       removeFromParent();
+    } else if (!passed &&
+        gameRef.bluebird.position.x > position.x + size.x &&
+        !gameRef.isCollided) {
+      passed = true;
+      gameRef.incrementScore(); // Skor artışını yönetmek için çağrılan metod
     }
   }
 }
