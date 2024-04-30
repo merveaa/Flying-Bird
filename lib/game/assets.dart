@@ -15,4 +15,15 @@ class AppAssets {
   static const gameover = 'assets/images/gameover.png';
 
   static const menu = 'assets/images/menu.png';
+
+  static const zero = '0.png';
+  static const one = '1.png';
+  static const two = '2.png';
+  static const three = '3.png';
+  static const four = '4.png';
+  static const five = '5.png';
+  static const six = '6.png';
+  static const seven = '7.png';
+  static const eight = '8.png';
+  static const nine = '9.png';
 }
