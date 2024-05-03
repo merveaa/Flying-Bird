@@ -37,7 +37,7 @@ class PipeGroup extends PositionComponent with HasGameRef<FlappyBirdGame> {
     if (position.x < -10) {
       removeFromParent();
     } else if (!passed &&
-        gameRef.bluebird.position.x > position.x + size.x &&
+        gameRef.bird.position.x > position.x + size.x &&
         !gameRef.isCollided) {
       passed = true;
       gameRef.incrementScore(); // Skor artışını yönetmek için çağrılan metod

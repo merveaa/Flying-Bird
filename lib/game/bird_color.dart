@@ -1,0 +1,1 @@
+enum BirdColor { red, blue }

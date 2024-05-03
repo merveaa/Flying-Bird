@@ -18,7 +18,7 @@ class Bird extends SpriteGroupComponent<BirdMovement>
     final birdUp = await gameRef.loadSprite(AppAssets.bluebirdUpFlap);
     final birdDown = await gameRef.loadSprite(AppAssets.bluebirdDownFlap);
 
-    gameRef.bluebird;
+    gameRef.bird;
 
     size = Vector2(50, 40);
     position = Vector2(50, gameRef.size.y / 2 - size.y / 2);

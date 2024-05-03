@@ -25,7 +25,7 @@ class MainMenuScreen extends StatelessWidget {
           children: [
             Positioned.fill(
               child: Image.asset(
-                AppAssets.mainBackground,
+                AppAssets.mainBackgroundDay,
                 fit: BoxFit.cover,
               ),
             ),

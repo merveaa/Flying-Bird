@@ -9,7 +9,7 @@ import 'package:flyingbird/components/score.dart';
 import 'package:flyingbird/game/config.dart';
 
 class FlappyBirdGame extends FlameGame with TapDetector, HasCollisionDetection {
-  late Bird bluebird;
+  late Bird bird;
   late ScoreComponent scoreWidget;
   int score = 0;
   Timer interval = Timer(Config.pipesInterval, repeat: true);
@@ -20,7 +20,7 @@ class FlappyBirdGame extends FlameGame with TapDetector, HasCollisionDetection {
     addAll([
       Background(),
       Ground(),
-      bluebird = Bird(),
+      bird = Bird(),
     ]);
 
     scoreWidget = ScoreComponent(score: score);
@@ -38,14 +38,14 @@ class FlappyBirdGame extends FlameGame with TapDetector, HasCollisionDetection {
   @override
   void onTap() {
     super.onTap();
-    bluebird.fly();
+    bird.fly();
   }
 
   void restartGame() {
     score = 0;
     scoreWidget.updateScore(score); // to update the score
     isCollided = false;
-    bluebird.reset();
+    bird.reset();
     overlays.remove('gameOver');
 
     // clear the existing pipes
@@ -62,7 +62,7 @@ class FlappyBirdGame extends FlameGame with TapDetector, HasCollisionDetection {
     score = 0;
     scoreWidget.updateScore(score); // for update the score display
     isCollided = false;
-    bluebird.reset();
+    bird.reset();
     // clear the existing pipes
     children.whereType<PipeGroup>().forEach((pipeGroup) => remove(pipeGroup));
     // start adding new pipes from the beginning
