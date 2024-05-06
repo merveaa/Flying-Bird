@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flyingbird/game/flyingbird_game.dart';
 import 'package:flyingbird/game/assets.dart';
 import 'package:flyingbird/game/config.dart';
-import 'package:flyingbird/game/flyingbird_game.dart';
+import 'package:flyingbird/screens/settings.dart';
 
-class MainMenuScreen extends StatelessWidget {
+class MainMenuScreen extends StatefulWidget {
   final FlappyBirdGame game;
   static const String id = 'mainMenu';
+
   const MainMenuScreen({
     Key? key,
     required this.game,
   }) : super(key: key);
 
   @override
+  _MainMenuScreenState createState() => _MainMenuScreenState();
+}
+
+class _MainMenuScreenState extends State<MainMenuScreen> {
+  @override
+  void initState() {
+    super.initState();
+    widget.game.pauseEngine();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    game.pauseEngine();
     return Scaffold(
       body: GestureDetector(
         onTap: () {
-          game.overlays.remove('mainMenu');
-          game.resumeEngine();
+          widget.game.overlays.remove('mainMenu'); // Use widget.game here
+          widget.game.resumeEngine(); // Use widget.game here
         },
         child: Stack(
           fit: StackFit.expand,
@@ -33,13 +45,26 @@ class MainMenuScreen extends StatelessWidget {
               left: 0,
               right: 0,
               bottom: 0,
-              child: Container(
+              child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: Config.groundHeight,
                 child: Image.asset(
                   AppAssets.mainGround,
                   fit: BoxFit.fill,
                 ),
+              ),
+            ),
+            Positioned(
+              bottom: 23,
+              right: 16,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => SettingsScreen(
+                        previousScreen: 'MainMenu', game: widget.game),
+                  ));
+                },
+                child: const Icon(Icons.settings, size: 55),
               ),
             ),
             Center(

@@ -4,17 +4,19 @@ import 'package:flyingbird/game/flyingbird_game.dart';
 import 'package:flyingbird/screens/game_over.dart';
 import 'package:flyingbird/screens/main_menu.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final game = FlappyBirdGame();
-  runApp(GameWidget(
-    game: game,
-    initialActiveOverlays: const ['mainMenu'],
-    overlayBuilderMap: {
-      'gameOver': (context, _) => GameOverScreen(
-            game: game,
-          ),
-      'mainMenu': (context, _) => MainMenuScreen(game: game),
-    },
+  runApp(MaterialApp(
+    home: GameWidget(
+      game: game,
+      initialActiveOverlays: const ['mainMenu'],
+      overlayBuilderMap: {
+        'gameOver': (context, _) => GameOverScreen(
+              game: game,
+            ),
+        'mainMenu': (context, _) => MainMenuScreen(game: game),
+      },
+    ),
   ));
 }

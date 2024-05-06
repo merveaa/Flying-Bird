@@ -1,30 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flyingbird/game/flyingbird_game.dart';
+import 'package:flyingbird/screens/game_over.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
+  final FlappyBirdGame game;
+  final String previousScreen;
+
+  const SettingsScreen({
+    Key? key,
+    required this.game,
+    required this.previousScreen,
+  }) : super(key: key);
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                // Gece ve gündüz modunu değiştir
-              },
-              child: Text('Toggle Day/Night Mode'),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Kuş rengini değiştir
-              },
-              child: Text('Change Bird Color'),
-            ),
-          ],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new_outlined),
+          onPressed: () {
+            // Geri butonuna basıldığında geçerli ekran türüne göre uygun işlevi çağır
+            if (widget.previousScreen == 'MainMenu') {
+              widget.game.goToMainMenu();
+              Navigator.pop(context); // SettingsScreen'e geri dön
+            } else if (widget.previousScreen == 'GameOver') {
+              Navigator.pop(context); // SettingsScreen'e geri dön
+            }
+          },
         ),
       ),
     );
