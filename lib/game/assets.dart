@@ -23,4 +23,7 @@ class AppAssets {
   static const menu = 'assets/images/menu.png';
 
   static const settings = 'assets/images/settings.png';
+  static const flying = 'fly.wav';
+  static const collision = 'collision.wav';
+  static const point = 'point.wav';
 }

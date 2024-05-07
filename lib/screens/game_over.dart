@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flyingbird/game/flyingbird_game.dart';
 import 'package:flyingbird/game/assets.dart';
-import 'package:flyingbird/screens/settings.dart';
 
 class GameOverScreen extends StatefulWidget {
   final FlappyBirdGame game;
@@ -56,19 +55,6 @@ class _GameOverScreenState extends State<GameOverScreen> {
                   ),
                 )
               ],
-            ),
-          ),
-          Positioned(
-            bottom: 23,
-            right: 16,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => SettingsScreen(
-                      previousScreen: 'GameOver', game: widget.game),
-                ));
-              },
-              child: const Icon(Icons.settings, size: 55),
             ),
           ),
         ],

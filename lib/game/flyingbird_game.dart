@@ -68,7 +68,6 @@ class FlappyBirdGame extends FlameGame with TapDetector, HasCollisionDetection {
     // start adding new pipes from the beginning
     interval = Timer(Config.pipesInterval, repeat: true);
     interval.onTick = () => add(PipeGroup());
-
     overlays.remove('gameOver');
     overlays.add('mainMenu');
     pauseEngine();
@@ -76,7 +75,6 @@ class FlappyBirdGame extends FlameGame with TapDetector, HasCollisionDetection {
 
   void incrementScore() {
     score++;
-    scoreWidget.updateScore(score);
-    print("Skor arttı, yeni skor: $score"); //kontrol için
+    scoreWidget.updateScore(score, playSound: true);
   }
 }

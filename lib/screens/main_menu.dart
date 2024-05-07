@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flyingbird/game/flyingbird_game.dart';
 import 'package:flyingbird/game/assets.dart';
 import 'package:flyingbird/game/config.dart';
-import 'package:flyingbird/screens/settings.dart';
 
 class MainMenuScreen extends StatefulWidget {
   final FlappyBirdGame game;
@@ -52,19 +51,6 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                   AppAssets.mainGround,
                   fit: BoxFit.fill,
                 ),
-              ),
-            ),
-            Positioned(
-              bottom: 23,
-              right: 16,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => SettingsScreen(
-                        previousScreen: 'MainMenu', game: widget.game),
-                  ));
-                },
-                child: const Icon(Icons.settings, size: 55),
               ),
             ),
             Center(

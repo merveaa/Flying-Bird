@@ -4,7 +4,6 @@ import 'package:flame/components.dart';
 import 'package:flyingbird/game/config.dart';
 import 'package:flyingbird/game/flyingbird_game.dart';
 import 'package:flyingbird/components/pipe.dart';
-import 'package:flyingbird/components/score.dart';
 import 'package:flyingbird/game/pipe_position.dart';
 
 class PipeGroup extends PositionComponent with HasGameRef<FlappyBirdGame> {

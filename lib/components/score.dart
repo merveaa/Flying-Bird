@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:ui' as ui;
-import 'dart:typed_data';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/services.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:flyingbird/game/assets.dart';
 
 class ScoreComponent extends PositionComponent {
   int score;
@@ -43,8 +44,8 @@ class ScoreComponent extends PositionComponent {
   void drawScore(Canvas canvas) {
     if (numberImages == null) return; // Check if images are loaded
     final String scoreString = score.toString();
-    final double imageWidth = 30;
-    final double spacing = 3;
+    const double imageWidth = 30;
+    const double spacing = 3;
 
     double offsetX = position.x;
     for (int i = 0; i < scoreString.length; i++) {
@@ -55,7 +56,10 @@ class ScoreComponent extends PositionComponent {
     }
   }
 
-  void updateScore(int newScore) {
+  void updateScore(int newScore, {bool playSound = false}) {
     score = newScore;
+    if (playSound) {
+      FlameAudio.play(AppAssets.point);
+    }
   }
 }
