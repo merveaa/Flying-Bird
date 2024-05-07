@@ -8,12 +8,12 @@ import 'package:flyingbird/game/assets.dart';
 
 class ScoreComponent extends PositionComponent {
   int score;
-  late List<ui.Image> numberImages;
+  late List<ui.Image> numberImages; // Doğrudan nullable tanımlayın
 
   ScoreComponent({required this.score}) {
-    loadImages(); // Call the function to load images asynchronously
+    numberImages = []; // Boş bir liste ile başlatıldı
+    loadImages(); // Bu metod resimleri yükleyecek
   }
-
   Future<void> loadImages() async {
     numberImages = await Future.wait(List.generate(10, (index) async {
       final imageName = 'assets/images/$index.png';
@@ -27,22 +27,29 @@ class ScoreComponent extends PositionComponent {
     }));
   }
 
+  void reset(int newScore) {
+    score = newScore;
+    numberImages = [];
+    loadImages();
+  }
+
   @override
   void onGameResize(Vector2 gameSize) {
     super.onGameResize(gameSize);
-    // Define the position of the score component
-    position = Vector2((gameSize.x - 100) / 2, 50); // Adjust position as needed
+    position = Vector2((gameSize.x - 100) / 2, 50);
   }
 
   @override
   void render(Canvas canvas) {
     super.render(canvas);
 
-    drawScore(canvas);
+    // Eğer resimler yüklenmişse skoru çiz
+    if (numberImages.isNotEmpty) {
+      drawScore(canvas);
+    }
   }
 
   void drawScore(Canvas canvas) {
-    if (numberImages == null) return; // Check if images are loaded
     final String scoreString = score.toString();
     const double imageWidth = 30;
     const double spacing = 3;
@@ -50,8 +57,10 @@ class ScoreComponent extends PositionComponent {
     double offsetX = position.x;
     for (int i = 0; i < scoreString.length; i++) {
       final int digit = int.parse(scoreString[i]);
-      final ui.Image digitImage = numberImages[digit];
-      canvas.drawImage(digitImage, Offset(offsetX, position.y), Paint());
+      final ui.Image? digitImage = numberImages?[digit];
+      if (digitImage != null) {
+        canvas.drawImage(digitImage, Offset(offsetX, position.y), Paint());
+      }
       offsetX += imageWidth + spacing;
     }
   }
@@ -61,5 +70,21 @@ class ScoreComponent extends PositionComponent {
     if (playSound) {
       FlameAudio.play(AppAssets.point);
     }
+  }
+}
+
+class ScorePainter extends CustomPainter {
+  final ScoreComponent scoreComponent;
+
+  ScorePainter(this.scoreComponent);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    scoreComponent.render(canvas);
+  }
+
+  @override
+  bool shouldRepaint(covariant ScorePainter oldDelegate) {
+    return oldDelegate.scoreComponent != scoreComponent;
   }
 }

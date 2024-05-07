@@ -1,12 +1,14 @@
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/timer.dart';
+import 'package:flutter/material.dart';
 import 'package:flyingbird/components/background.dart';
 import 'package:flyingbird/components/bird.dart';
 import 'package:flyingbird/components/ground.dart';
 import 'package:flyingbird/components/pipe_group.dart';
 import 'package:flyingbird/components/score.dart';
 import 'package:flyingbird/game/config.dart';
+import 'package:flyingbird/screens/game_over.dart';
 
 class FlappyBirdGame extends FlameGame with TapDetector, HasCollisionDetection {
   late Bird bird;
@@ -39,6 +41,21 @@ class FlappyBirdGame extends FlameGame with TapDetector, HasCollisionDetection {
   void onTap() {
     super.onTap();
     bird.fly();
+  }
+
+  void gameover(BuildContext context) {
+    // Pause the game
+    pauseEngine();
+    // Navigate to the game over screen and pass the final score
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GameOverScreen(
+          game: this,
+          finalScore: score, // Pass the final score here
+        ),
+      ),
+    );
   }
 
   void restartGame() {

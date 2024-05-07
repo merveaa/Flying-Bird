@@ -14,6 +14,7 @@ void main() async {
       overlayBuilderMap: {
         'gameOver': (context, _) => GameOverScreen(
               game: game,
+              finalScore: game.score,
             ),
         'mainMenu': (context, _) => MainMenuScreen(game: game),
       },
