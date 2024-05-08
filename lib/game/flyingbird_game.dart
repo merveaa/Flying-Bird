@@ -8,14 +8,17 @@ import 'package:flyingbird/components/ground.dart';
 import 'package:flyingbird/components/pipe_group.dart';
 import 'package:flyingbird/components/score.dart';
 import 'package:flyingbird/game/config.dart';
+import 'package:flyingbird/game/preferences_service.dart';
 import 'package:flyingbird/screens/game_over.dart';
 
 class FlappyBirdGame extends FlameGame with TapDetector, HasCollisionDetection {
   late Bird bird;
   late ScoreComponent scoreWidget;
   int score = 0;
+  int bestScore = 0;
   Timer interval = Timer(Config.pipesInterval, repeat: true);
   bool isCollided = false;
+  PreferencesService prefsService = PreferencesService();
 
   @override
   Future<void> onLoad() async {
@@ -27,6 +30,7 @@ class FlappyBirdGame extends FlameGame with TapDetector, HasCollisionDetection {
 
     scoreWidget = ScoreComponent(score: score);
     add(scoreWidget);
+    bestScore = await prefsService.getBestScore(); // En iyi skoru yükle
 
     interval.onTick = () => add(PipeGroup());
   }
@@ -43,16 +47,24 @@ class FlappyBirdGame extends FlameGame with TapDetector, HasCollisionDetection {
     bird.fly();
   }
 
+  void incrementScore() {
+    score++;
+    if (score > bestScore) {
+      bestScore = score;
+      prefsService.saveBestScore(bestScore); // Yeni en iyi skoru kaydet
+    }
+    scoreWidget.updateScore(score, playSound: true);
+  }
+
   void gameover(BuildContext context) {
-    // Pause the game
     pauseEngine();
-    // Navigate to the game over screen and pass the final score
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => GameOverScreen(
           game: this,
-          finalScore: score, // Pass the final score here
+          finalScore: score,
+          bestScore: bestScore, // En iyi skoru geç
         ),
       ),
     );
@@ -88,10 +100,5 @@ class FlappyBirdGame extends FlameGame with TapDetector, HasCollisionDetection {
     overlays.remove('gameOver');
     overlays.add('mainMenu');
     pauseEngine();
-  }
-
-  void incrementScore() {
-    score++;
-    scoreWidget.updateScore(score, playSound: true);
   }
 }

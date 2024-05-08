@@ -6,11 +6,13 @@ import 'package:flyingbird/game/assets.dart';
 class GameOverScreen extends StatefulWidget {
   final FlappyBirdGame game;
   final int finalScore;
+  final int bestScore;
 
   const GameOverScreen({
     Key? key,
     required this.game,
     required this.finalScore,
+    required this.bestScore,
   }) : super(key: key);
 
   @override
@@ -18,15 +20,19 @@ class GameOverScreen extends StatefulWidget {
 }
 
 class _GameOverScreenState extends State<GameOverScreen> {
-  late ScoreComponent scoreComponent;
+  late ScoreComponent finalScoreComponent;
+  late ScoreComponent bestScoreComponent;
   late Future<void> _loadImagesFuture;
 
   @override
   void initState() {
     super.initState();
-    scoreComponent = ScoreComponent(score: widget.finalScore);
-    _loadImagesFuture =
-        scoreComponent.loadImages(); // Resimleri yüklemek için Future başlat
+    finalScoreComponent = ScoreComponent(score: widget.finalScore);
+    bestScoreComponent = ScoreComponent(score: widget.bestScore);
+    _loadImagesFuture = Future.wait([
+      finalScoreComponent.loadImages(),
+      bestScoreComponent.loadImages(),
+    ]);
   }
 
   @override
@@ -51,15 +57,25 @@ class _GameOverScreenState extends State<GameOverScreen> {
                       future: _loadImagesFuture,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
-                          // Resimler yüklendi, şimdi skoru göster
-                          return Container(
-                            margin: EdgeInsets.only(bottom: 200, left: 180),
-                            child: CustomPaint(
-                              painter: ScorePainter(scoreComponent),
-                            ),
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(bottom: 60, left: 180),
+                                child: CustomPaint(
+                                  painter: ScorePainter(finalScoreComponent),
+                                ),
+                              ),
+                              //SizedBox(height: 80),
+                              Container(
+                                margin: EdgeInsets.only(bottom: 140, left: 180),
+                                child: CustomPaint(
+                                  painter: ScorePainter(bestScoreComponent),
+                                ),
+                              ),
+                            ],
                           );
                         } else {
-                          // Yükleniyor, bir yükleme animasyonu veya gösterimi yapabilirsiniz
                           return CircularProgressIndicator();
                         }
                       },
@@ -102,8 +118,14 @@ class _GameOverScreenState extends State<GameOverScreen> {
   }
 
   void initializeScoreComponent() {
-    scoreComponent = ScoreComponent(score: 0); // Skoru sıfırla
-    _loadImagesFuture = scoreComponent.loadImages(); // Resimleri yeniden yükle
+    finalScoreComponent = ScoreComponent(
+        score: widget.finalScore); // Final skor için bileşeni yeniden başlat
+    bestScoreComponent = ScoreComponent(
+        score: widget.bestScore); // En iyi skor için bileşeni yeniden başlat
+    _loadImagesFuture = Future.wait([
+      finalScoreComponent.loadImages(),
+      bestScoreComponent.loadImages(),
+    ]); // Her iki bileşenin resimlerini yeniden yükleyin
     setState(() {}); // UI'yi yeniden yükle
   }
 }

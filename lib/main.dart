@@ -15,6 +15,7 @@ void main() async {
         'gameOver': (context, _) => GameOverScreen(
               game: game,
               finalScore: game.score,
+              bestScore: game.bestScore,
             ),
         'mainMenu': (context, _) => MainMenuScreen(game: game),
       },

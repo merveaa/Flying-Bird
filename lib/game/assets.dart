@@ -21,6 +21,8 @@ class AppAssets {
   static const gameover = 'assets/images/gameover.png';
 
   static const menu = 'assets/images/menu.png';
+
+  static const newbestscore = 'assets/images/new.png';
   static const scoreBoard = 'assets/images/scoreboard.png';
 
   static const settings = 'assets/images/settings.png';
