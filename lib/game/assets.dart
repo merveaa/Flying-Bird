@@ -29,4 +29,8 @@ class AppAssets {
   static const flying = 'fly.wav';
   static const collision = 'collision.wav';
   static const point = 'point.wav';
+
+  static const goldMedal = 'assets/images/gold-medal.png';
+  static const silverMedal = 'assets/images/silver-medal.png';
+  static const bronzeMedal = 'assets/images/bronze-medal.png';
 }
